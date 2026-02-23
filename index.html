@@ -1,0 +1,1560 @@
+<!DOCTYPE html>
+<!-- saved from url=(0050)file:///C:/Users/hikar/product/numerology_app.html -->
+<html lang="ja"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>数秘術 - あなたの運命を解き明かす</title>
+  <link href="./数秘術 - あなたの運命を解き明かすアプリ_files/css2" rel="stylesheet">
+  <style>
+    :root {
+      --gold: #c9a84c;
+      --gold-light: #e8c97a;
+      --deep-navy: #050d1f;
+      --navy: #0a1628;
+      --navy-mid: #0f2040;
+      --purple: #2a1045;
+      --glow: rgba(201, 168, 76, 0.4);
+      --text-dim: rgba(232, 201, 122, 0.6);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: var(--deep-navy);
+      color: #e8d5b0;
+      font-family: 'Noto Serif JP', serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ===== STARS BACKGROUND ===== */
+    .stars-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      background:
+        radial-gradient(ellipse at 20% 50%, rgba(42, 16, 69, 0.4) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 20%, rgba(10, 22, 40, 0.6) 0%, transparent 50%),
+        var(--deep-navy);
+    }
+
+    .stars-bg::before,
+    .stars-bg::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image:
+        radial-gradient(1px 1px at 10% 15%, rgba(255, 255, 255, 0.8) 0%, transparent 100%),
+        radial-gradient(1px 1px at 25% 40%, rgba(255, 255, 255, 0.5) 0%, transparent 100%),
+        radial-gradient(1.5px 1.5px at 40% 10%, rgba(201, 168, 76, 0.6) 0%, transparent 100%),
+        radial-gradient(1px 1px at 60% 70%, rgba(255, 255, 255, 0.6) 0%, transparent 100%),
+        radial-gradient(1px 1px at 75% 25%, rgba(255, 255, 255, 0.4) 0%, transparent 100%),
+        radial-gradient(2px 2px at 85% 55%, rgba(201, 168, 76, 0.5) 0%, transparent 100%),
+        radial-gradient(1px 1px at 90% 80%, rgba(255, 255, 255, 0.7) 0%, transparent 100%),
+        radial-gradient(1px 1px at 15% 75%, rgba(255, 255, 255, 0.5) 0%, transparent 100%),
+        radial-gradient(1.5px 1.5px at 50% 50%, rgba(201, 168, 76, 0.4) 0%, transparent 100%),
+        radial-gradient(1px 1px at 35% 85%, rgba(255, 255, 255, 0.6) 0%, transparent 100%);
+      animation: twinkle 4s ease-in-out infinite alternate;
+    }
+
+    .stars-bg::after {
+      background-image:
+        radial-gradient(1px 1px at 5% 30%, rgba(255, 255, 255, 0.6) 0%, transparent 100%),
+        radial-gradient(1px 1px at 20% 60%, rgba(255, 255, 255, 0.4) 0%, transparent 100%),
+        radial-gradient(2px 2px at 45% 20%, rgba(201, 168, 76, 0.7) 0%, transparent 100%),
+        radial-gradient(1px 1px at 65% 45%, rgba(255, 255, 255, 0.5) 0%, transparent 100%),
+        radial-gradient(1px 1px at 80% 70%, rgba(255, 255, 255, 0.3) 0%, transparent 100%),
+        radial-gradient(1.5px 1.5px at 95% 15%, rgba(201, 168, 76, 0.6) 0%, transparent 100%),
+        radial-gradient(1px 1px at 30% 95%, rgba(255, 255, 255, 0.5) 0%, transparent 100%),
+        radial-gradient(1px 1px at 55% 65%, rgba(255, 255, 255, 0.4) 0%, transparent 100%),
+        radial-gradient(1px 1px at 70% 90%, rgba(201, 168, 76, 0.3) 0%, transparent 100%),
+        radial-gradient(1.5px 1.5px at 88% 40%, rgba(255, 255, 255, 0.6) 0%, transparent 100%);
+      animation: twinkle 5s ease-in-out infinite alternate-reverse;
+    }
+
+    @keyframes twinkle {
+      0% {
+        opacity: 0.6;
+      }
+
+      100% {
+        opacity: 1;
+      }
+    }
+
+    /* ===== CHAT WIDGET ===== */
+    .chat-widget {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      width: 300px;
+      background: rgba(10, 20, 15, 0.95);
+      border: 1px solid var(--gold);
+      border-radius: 16px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6), 0 0 20px rgba(201, 168, 76, 0.2);
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      transform: translateY(120%);
+      transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1), opacity 0.6s;
+      opacity: 0;
+      backdrop-filter: blur(10px);
+    }
+
+    .chat-widget.active {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .chat-header {
+      background: linear-gradient(90deg, #1a1a1a, #2a2105);
+      padding: 12px 16px;
+      border-bottom: 1px solid rgba(201, 168, 76, 0.3);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .chat-avatar {
+      width: 32px;
+      height: 32px;
+      background: var(--gold);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+
+    .chat-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--gold-light);
+      letter-spacing: 1px;
+    }
+
+    .chat-body {
+      padding: 20px 16px;
+    }
+
+    .chat-msg {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      padding: 12px;
+      font-size: 14px;
+      line-height: 1.6;
+      color: #e0e0e0;
+      position: relative;
+    }
+
+    .chat-msg::before {
+      content: '';
+      position: absolute;
+      top: -8px;
+      left: 12px;
+      border-left: 8px solid transparent;
+      border-right: 8px solid transparent;
+      border-bottom: 8px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .chat-footer {
+      padding: 12px 16px 20px;
+    }
+
+    .chat-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #c9a84c 0%, #a68a3d 100%);
+      color: #1a1a1a;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 800;
+      padding: 10px;
+      border-radius: 8px;
+      transition: all 0.3s;
+      text-align: center;
+      box-shadow: 0 4px 15px rgba(201, 168, 76, 0.3);
+    }
+
+    .chat-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(201, 168, 76, 0.5);
+    }
+
+    @media (max-width: 480px) {
+      .chat-widget {
+        width: calc(100% - 32px);
+        bottom: 16px;
+        left: 16px;
+        right: 16px;
+      }
+    }
+
+    /* ===== CONTAINER ===== */
+    .container {
+      position: relative;
+      z-index: 1;
+      max-width: 480px;
+      margin: 0 auto;
+      padding: 0 20px 60px;
+    }
+
+    /* ===== HEADER ===== */
+    header {
+      text-align: center;
+      padding: 40px 0 30px;
+      position: relative;
+    }
+
+    .header-deco {
+      width: 60px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      margin: 0 auto 16px;
+    }
+
+    header h1 {
+      font-family: 'Cinzel', serif;
+      font-size: 13px;
+      letter-spacing: 8px;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    header h2 {
+      font-size: 28px;
+      font-weight: 700;
+      color: #f0e6c8;
+      letter-spacing: 4px;
+      line-height: 1.3;
+      text-shadow: 0 0 20px var(--glow);
+    }
+
+    header p {
+      font-size: 12px;
+      color: var(--text-dim);
+      letter-spacing: 3px;
+      margin-top: 12px;
+    }
+
+    /* ===== INPUT FORM ===== */
+    .form-section {
+      background: linear-gradient(135deg, rgba(15, 32, 64, 0.9), rgba(10, 22, 40, 0.95));
+      border: 1px solid rgba(201, 168, 76, 0.2);
+      border-radius: 16px;
+      padding: 32px 28px;
+      margin: 20px 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .form-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
+
+    .form-group {
+      margin-bottom: 24px;
+    }
+
+    .form-group:last-child {
+      margin-bottom: 0;
+    }
+
+    label {
+      display: block;
+      font-size: 11px;
+      letter-spacing: 3px;
+      color: var(--gold);
+      margin-bottom: 10px;
+      text-transform: uppercase;
+    }
+
+    input[type="text"],
+    input[type="date"] {
+      width: 100%;
+      background: rgba(5, 13, 31, 0.8);
+      border: 1px solid rgba(201, 168, 76, 0.3);
+      border-radius: 8px;
+      padding: 14px 16px;
+      color: #f0e6c8;
+      font-family: 'Noto Serif JP', serif;
+      font-size: 16px;
+      outline: none;
+      transition: border-color 0.3s, box-shadow 0.3s;
+      -webkit-appearance: none;
+    }
+
+    input[type="text"]::placeholder {
+      color: rgba(232, 213, 176, 0.3);
+    }
+
+    input:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 16px rgba(201, 168, 76, 0.2);
+    }
+
+    input[type="date"]::-webkit-calendar-picker-indicator {
+      filter: invert(1) sepia(1) saturate(2) hue-rotate(5deg);
+      opacity: 0.6;
+    }
+
+    .calc-btn {
+      width: 100%;
+      background: linear-gradient(135deg, rgba(201, 168, 76, 0.15), rgba(201, 168, 76, 0.05));
+      border: 1px solid var(--gold);
+      border-radius: 10px;
+      padding: 18px;
+      color: var(--gold-light);
+      font-family: 'Cinzel', serif;
+      font-size: 14px;
+      letter-spacing: 4px;
+      cursor: pointer;
+      transition: all 0.3s;
+      text-transform: uppercase;
+      position: relative;
+      overflow: hidden;
+      margin-top: 8px;
+    }
+
+    .calc-btn::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      background: rgba(201, 168, 76, 0.2);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      transition: width 0.6s, height 0.6s;
+    }
+
+    .calc-btn:active::before {
+      width: 300px;
+      height: 300px;
+    }
+
+    .calc-btn:hover {
+      background: linear-gradient(135deg, rgba(201, 168, 76, 0.25), rgba(201, 168, 76, 0.1));
+      box-shadow: 0 0 24px rgba(201, 168, 76, 0.3);
+      transform: translateY(-1px);
+    }
+
+    /* ===== RESULT SECTION ===== */
+    .result-section {
+      display: none;
+      animation: fadeInUp 0.8s ease forwards;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .result-header {
+      text-align: center;
+      padding: 30px 0 20px;
+    }
+
+    .result-name {
+      font-family: 'Cinzel', serif;
+      font-size: 18px;
+      letter-spacing: 4px;
+      color: var(--gold);
+      text-transform: uppercase;
+    }
+
+    .result-subtitle {
+      font-size: 12px;
+      color: var(--text-dim);
+      letter-spacing: 2px;
+      margin-top: 6px;
+    }
+
+    /* ===== MANDALA CHART ===== */
+    .mandala-wrap {
+      position: relative;
+      width: 320px;
+      height: 320px;
+      margin: 24px auto;
+    }
+
+    .mandala-svg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0.25;
+      animation: rotateSlow 60s linear infinite;
+    }
+
+    @keyframes rotateSlow {
+      from {
+        transform: rotate(0deg);
+      }
+
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .nodes-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .node {
+      position: absolute;
+      border-radius: 50%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transform: translate(-50%, -50%);
+      cursor: pointer;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .node:hover {
+      transform: translate(-50%, -50%) scale(1.15);
+    }
+
+    .node-lg {
+      width: 72px;
+      height: 72px;
+      background: radial-gradient(circle, rgba(201, 168, 76, 0.3) 0%, rgba(42, 16, 69, 0.9) 60%, rgba(10, 22, 40, 0.95) 100%);
+      border: 2px solid var(--gold);
+      box-shadow: 0 0 20px rgba(201, 168, 76, 0.5), inset 0 0 15px rgba(201, 168, 76, 0.1);
+    }
+
+    .node-md {
+      width: 58px;
+      height: 58px;
+      background: radial-gradient(circle, rgba(201, 168, 76, 0.2) 0%, rgba(42, 16, 69, 0.85) 60%, rgba(10, 22, 40, 0.9) 100%);
+      border: 1.5px solid rgba(201, 168, 76, 0.7);
+      box-shadow: 0 0 14px rgba(201, 168, 76, 0.3);
+    }
+
+    .node-sm {
+      width: 46px;
+      height: 46px;
+      background: radial-gradient(circle, rgba(201, 168, 76, 0.15) 0%, rgba(42, 16, 69, 0.8) 60%, rgba(10, 22, 40, 0.9) 100%);
+      border: 1px solid rgba(201, 168, 76, 0.5);
+      box-shadow: 0 0 10px rgba(201, 168, 76, 0.2);
+    }
+
+    .node-num {
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      line-height: 1;
+      color: var(--gold-light);
+      text-shadow: 0 0 10px var(--glow);
+    }
+
+    .node-lg .node-num {
+      font-size: 26px;
+    }
+
+    .node-md .node-num {
+      font-size: 22px;
+    }
+
+    .node-sm .node-num {
+      font-size: 18px;
+    }
+
+    .node-label {
+      font-size: 8px;
+      color: var(--text-dim);
+      letter-spacing: 1px;
+      margin-top: 2px;
+      text-align: center;
+      line-height: 1.2;
+    }
+
+    /* ===== NUMBER CARDS ===== */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 10px;
+      margin: 20px 0;
+    }
+
+    .num-card {
+      background: linear-gradient(135deg, rgba(15, 32, 64, 0.9), rgba(10, 22, 40, 0.95));
+      border: 1px solid rgba(201, 168, 76, 0.2);
+      border-radius: 12px;
+      padding: 16px 10px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .num-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
+
+    .num-card:hover {
+      border-color: rgba(201, 168, 76, 0.5);
+      box-shadow: 0 4px 20px rgba(201, 168, 76, 0.15);
+      transform: translateY(-3px);
+    }
+
+    .card-type {
+      font-size: 9px;
+      letter-spacing: 1.5px;
+      color: var(--text-dim);
+      margin-bottom: 6px;
+      line-height: 1.4;
+    }
+
+    .card-num {
+      font-family: 'Cinzel', serif;
+      font-size: 32px;
+      font-weight: 900;
+      color: var(--gold-light);
+      text-shadow: 0 0 16px var(--glow);
+      line-height: 1;
+    }
+
+    .card-meaning {
+      font-size: 9px;
+      color: rgba(232, 213, 176, 0.5);
+      margin-top: 4px;
+    }
+
+    /* ===== DETAIL SECTIONS ===== */
+    .detail-block {
+      background: linear-gradient(135deg, rgba(15, 32, 64, 0.8), rgba(10, 22, 40, 0.9));
+      border: 1px solid rgba(201, 168, 76, 0.15);
+      border-radius: 14px;
+      padding: 24px 22px;
+      margin: 14px 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .detail-block::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(201, 168, 76, 0.5), transparent);
+    }
+
+    .detail-block-title {
+      font-family: 'Cinzel', serif;
+      font-size: 11px;
+      letter-spacing: 3px;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .detail-block-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, rgba(201, 168, 76, 0.3), transparent);
+    }
+
+    .detail-text {
+      font-size: 13px;
+      line-height: 1.9;
+      color: rgba(232, 213, 176, 0.85);
+      font-weight: 300;
+    }
+
+    /* ===== LIFE PATH TIMELINE ===== */
+    .timeline {
+      margin: 8px 0;
+    }
+
+    .timeline-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(201, 168, 76, 0.08);
+    }
+
+    .timeline-item:last-child {
+      border-bottom: none;
+    }
+
+    .timeline-num {
+      font-family: 'Cinzel', serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--gold);
+      min-width: 36px;
+      text-align: center;
+      text-shadow: 0 0 10px var(--glow);
+    }
+
+    .timeline-info {
+      flex: 1;
+    }
+
+    .timeline-age {
+      font-size: 10px;
+      letter-spacing: 2px;
+      color: var(--text-dim);
+      margin-bottom: 4px;
+    }
+
+    .timeline-desc {
+      font-size: 12px;
+      color: rgba(232, 213, 176, 0.75);
+      line-height: 1.6;
+    }
+
+    /* ===== 2026 FORTUNE ===== */
+    .fortune-header {
+      text-align: center;
+      padding: 10px 0 20px;
+    }
+
+    .fortune-year {
+      font-family: 'Cinzel', serif;
+      font-size: 48px;
+      font-weight: 900;
+      color: transparent;
+      background: linear-gradient(135deg, var(--gold-light), var(--gold), rgba(201, 168, 76, 0.5));
+      -webkit-background-clip: text;
+      background-clip: text;
+      letter-spacing: 4px;
+      text-shadow: none;
+      filter: drop-shadow(0 0 20px rgba(201, 168, 76, 0.4));
+    }
+
+    .fortune-label {
+      font-size: 12px;
+      letter-spacing: 4px;
+      color: var(--text-dim);
+    }
+
+    .fortune-stars {
+      display: flex;
+      justify-content: center;
+      gap: 6px;
+      margin: 12px 0;
+    }
+
+    .star {
+      width: 16px;
+      height: 16px;
+      fill: none;
+      stroke: var(--gold);
+      stroke-width: 1.5;
+      transition: fill 0.3s;
+    }
+
+    .star.filled {
+      fill: var(--gold);
+    }
+
+    /* ===== FLOATING PARTICLES ===== */
+    .particle {
+      position: fixed;
+      pointer-events: none;
+      border-radius: 50%;
+      animation: float-up linear infinite;
+      z-index: 0;
+    }
+
+    @keyframes float-up {
+      0% {
+        transform: translateY(100vh) translateX(0);
+        opacity: 0;
+      }
+
+      10% {
+        opacity: 1;
+      }
+
+      90% {
+        opacity: 0.5;
+      }
+
+      100% {
+        transform: translateY(-100px) translateX(var(--drift));
+        opacity: 0;
+      }
+    }
+
+    /* ===== DIVIDER ===== */
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin: 28px 0;
+    }
+
+    .divider::before,
+    .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(201, 168, 76, 0.3));
+    }
+
+    .divider::after {
+      background: linear-gradient(270deg, transparent, rgba(201, 168, 76, 0.3));
+    }
+
+    .divider-icon {
+      font-size: 16px;
+      color: var(--gold);
+      opacity: 0.6;
+    }
+
+    /* ===== LOADING ===== */
+    .loading-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(5, 13, 31, 0.95);
+      z-index: 100;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+    }
+
+    .loading-overlay.active {
+      display: flex;
+    }
+
+    .loading-ring {
+      width: 80px;
+      height: 80px;
+      border: 2px solid rgba(201, 168, 76, 0.2);
+      border-top: 2px solid var(--gold);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .loading-text {
+      font-family: 'Cinzel', serif;
+      font-size: 12px;
+      letter-spacing: 4px;
+      color: var(--text-dim);
+      animation: pulse 1.5s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        opacity: 0.4;
+      }
+
+      50% {
+        opacity: 1;
+      }
+    }
+
+    /* ===== SCROLL ANIMATION ===== */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ===== LINE CTA ===== */
+    .line-cta {
+      position: relative;
+      background: linear-gradient(135deg, #0a3a1a 0%, #0d2e14 100%);
+      border: 1px solid rgba(76, 201, 120, 0.4);
+      border-radius: 20px;
+      padding: 30px 24px;
+      margin: 10px 0 16px;
+      overflow: hidden;
+    }
+
+    .line-cta-glow {
+      position: absolute;
+      top: -40px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 200px;
+      height: 100px;
+      background: radial-gradient(ellipse, rgba(76, 201, 120, 0.15) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .line-cta-badge {
+      display: inline-block;
+      font-size: 10px;
+      letter-spacing: 3px;
+      color: #4cc978;
+      border: 1px solid rgba(76, 201, 120, 0.4);
+      padding: 4px 14px;
+      border-radius: 20px;
+      margin-bottom: 14px;
+      background: rgba(76, 201, 120, 0.1);
+    }
+
+    .line-cta-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: #f0ffe8;
+      margin-bottom: 10px;
+      line-height: 1.4;
+    }
+
+    .line-cta-desc {
+      font-size: 13px;
+      color: rgba(200, 255, 200, 0.8);
+      line-height: 1.8;
+      margin-bottom: 18px;
+    }
+
+    .line-cta-desc strong {
+      color: #7eff9a;
+    }
+
+    .line-cta-features {
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 12px;
+      padding: 14px 16px;
+      margin-bottom: 20px;
+      text-align: left;
+    }
+
+    .line-feat {
+      font-size: 12px;
+      color: rgba(200, 255, 200, 0.8);
+      padding: 4px 0;
+      line-height: 1.6;
+    }
+
+    .line-btn {
+      display: inline-block;
+      width: 100%;
+      max-width: 300px;
+      transition: transform 0.3s;
+      line-height: 0;
+      background: none;
+      box-shadow: none;
+      padding: 0;
+      border: none;
+    }
+
+    .line-btn img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 50px;
+      box-shadow: 0 4px 20px rgba(6, 199, 85, 0.4);
+    }
+
+    .line-btn:hover {
+      background: none;
+      transform: translateY(-3px);
+      box-shadow: none;
+    }
+
+    .line-btn:hover img {
+      box-shadow: 0 8px 28px rgba(6, 199, 85, 0.6);
+    }
+
+    .line-cta-note {
+      font-size: 10px;
+      color: rgba(200, 255, 200, 0.4);
+      margin-top: 12px;
+      letter-spacing: 1px;
+    }
+
+    .line-cta-content {
+      flex: 1;
+      text-align: center;
+    }
+
+    .line-cta-qr {
+      flex: 0 0 160px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin-top: 20px;
+    }
+
+    .qr-image {
+      width: 140px;
+      height: 140px;
+      border-radius: 12px;
+      background: white;
+      padding: 5px;
+      margin-bottom: 8px;
+    }
+
+    .qr-note {
+      font-size: 10px;
+      color: rgba(255, 255, 255, 0.7);
+      line-height: 1.4;
+    }
+
+    /* Responsive adjustments */
+    @media (min-width: 769px) {
+      .line-cta {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 30px;
+        text-align: left;
+      }
+
+      .line-cta-content {
+        text-align: left;
+      }
+
+      .line-cta-title,
+      .line-cta-desc {
+        text-align: left;
+      }
+
+      .line-btn {
+        margin: 0;
+      }
+
+      .line-cta-qr {
+        margin-top: 0;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .line-cta {
+        flex-direction: column;
+        text-align: center;
+        padding: 30px 20px;
+      }
+
+      .line-cta-content {
+        width: 100%;
+        margin-bottom: 24px;
+        text-align: center;
+      }
+
+      .line-cta-title,
+      .line-cta-desc {
+        text-align: center;
+      }
+
+      .line-cta-qr {
+        width: 100%;
+        max-width: 240px;
+        margin: 0 auto;
+      }
+
+      .qr-note {
+        display: none;
+      }
+    }
+
+    /* ===== UPSELL BLOCK ===== */
+    .upsell-block {
+      background: linear-gradient(135deg, rgba(45, 16, 69, 0.9), rgba(20, 8, 40, 0.95));
+      border: 1px solid rgba(201, 168, 76, 0.3);
+      border-radius: 18px;
+      padding: 24px 22px;
+      margin: 0 0 16px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .upsell-block::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
+
+    .upsell-label {
+      font-size: 10px;
+      letter-spacing: 2px;
+      color: var(--gold);
+      margin-bottom: 10px;
+    }
+
+    .upsell-title {
+      font-family: 'Cinzel', serif;
+      font-size: 16px;
+      color: #f0e6c8;
+      margin-bottom: 8px;
+      line-height: 1.4;
+    }
+
+    .upsell-sub {
+      font-size: 12px;
+      color: rgba(232, 213, 176, 0.6);
+      line-height: 1.7;
+      margin-bottom: 14px;
+    }
+
+    .upsell-price {
+      font-family: 'Cinzel', serif;
+      font-size: 28px;
+      color: var(--gold-light);
+      text-shadow: 0 0 14px var(--glow);
+      margin-bottom: 16px;
+    }
+
+    .upsell-price span {
+      font-size: 12px;
+      font-family: 'Noto Serif JP', serif;
+      color: var(--text-dim);
+    }
+
+    .upsell-btn {
+      display: inline-block;
+      background: linear-gradient(135deg, rgba(201, 168, 76, 0.2), rgba(201, 168, 76, 0.05));
+      border: 1px solid var(--gold);
+      color: var(--gold-light);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 700;
+      padding: 13px 28px;
+      border-radius: 50px;
+      letter-spacing: 2px;
+      transition: all 0.3s;
+    }
+
+    .upsell-btn:hover {
+      background: linear-gradient(135deg, rgba(201, 168, 76, 0.35), rgba(201, 168, 76, 0.1));
+      box-shadow: 0 4px 20px rgba(201, 168, 76, 0.3);
+      transform: translateY(-2px);
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="stars-bg"></div>
+  <div class="loading-overlay" id="loadingOverlay">
+    <div class="loading-ring"></div>
+    <div class="loading-text">CALCULATING YOUR DESTINY...</div>
+  </div>
+
+  <div class="container">
+    <header>
+      <div class="header-deco"></div>
+      <h1>Numerology</h1>
+      <h2>数 秘 術<br>運命の数字</h2>
+      <p>あなたの全体運・訪れるチャンス</p>
+    </header>
+
+    <!-- INPUT FORM -->
+    <div class="form-section fade-in visible">
+      <div class="form-group">
+        <label>あなたのお名前（ローマ字）</label>
+        <input type="text" id="nameInput" placeholder="YAMADA TARO">
+      </div>
+      <div class="form-group">
+        <label>生年月日</label>
+        <input type="date" id="birthInput">
+      </div>
+      <button class="calc-btn" onclick="calculate()">✦ 運命を解き明かす ✦</button>
+    </div>
+
+    <!-- RESULT -->
+    <div class="result-section" id="resultSection" style="display: block;">
+
+      <div class="result-header fade-in visible">
+        <div class="result-name" id="resultName">MATSUMOTO YASUHIRO</div>
+        <div class="result-subtitle" id="resultDate">1973年11月18日生まれ</div>
+      </div>
+
+      <div class="divider fade-in visible"><span class="divider-icon">✦</span></div>
+
+      <!-- 3 KEY NUMBERS -->
+      <div class="cards-grid fade-in visible">
+        <div class="num-card">
+          <div class="card-type">ディスティニー<br>行動パターン</div>
+          <div class="card-num" id="destinyNum">1</div>
+          <div class="card-meaning" id="destinyMeaning">先駆者</div>
+        </div>
+        <div class="num-card">
+          <div class="card-type">ソウル<br>内面の目標</div>
+          <div class="card-num" id="soulNum">8</div>
+          <div class="card-meaning" id="soulMeaning">力と豊かさの具現者</div>
+        </div>
+        <div class="num-card">
+          <div class="card-type">パーソナリティ<br>他者への印象</div>
+          <div class="card-num" id="personalityNum">11</div>
+          <div class="card-meaning" id="personalityMeaning">直感と啓示のマスター</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- LINE CTA 1 (After Cards) -->
+    <div class="line-cta fade-in visible">
+      <div class="line-cta-glow"></div>
+      <div class="line-cta-content">
+        <div class="line-cta-title" style="font-size:22px;">
+          「今のまま、人生を終わらせたくない」あなたへ
+        </div>
+        <div class="line-cta-desc">
+          あなたの数字が示す"本来の輝き"は、まだ眠ったままです。<br class="pc-only">
+          残りの人生を最高傑作にするための<br>
+          <strong>「数秘術・最終結論」</strong>を今だけ公開。
+        </div>
+        <a href="https://line.me/ti/p/@557onnjq" target="_blank" rel="noopener noreferrer" class="line-btn">
+          <img src="./数秘術 - あなたの運命を解き明かすアプリ_files/line_add_button.jpg" alt="LINEで友だち追加">
+        </a>
+        <div class="line-cta-note">完全無料・いつでも解除可能</div>
+      </div>
+      <div class="line-cta-qr">
+        <img src="./数秘術 - あなたの運命を解き明かすアプリ_files/line-qr.png" alt="LINE QR Code" class="qr-image">
+        <div class="qr-note">スマホの方はボタンをタップ、<br>PCの方はQRコードをスキャンしてください</div>
+      </div>
+    </div>
+
+    <!-- MANDALA -->
+    <div class="mandala-wrap fade-in visible">
+      <svg class="mandala-svg" viewBox="0 0 320 320" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="160" cy="160" r="140" fill="none" stroke="rgba(201,168,76,0.5)" stroke-width="0.5"></circle>
+        <circle cx="160" cy="160" r="100" fill="none" stroke="rgba(201,168,76,0.4)" stroke-width="0.5"></circle>
+        <circle cx="160" cy="160" r="60" fill="none" stroke="rgba(201,168,76,0.3)" stroke-width="0.5"></circle>
+        <polygon points="160,20 296,240 24,240" fill="none" stroke="rgba(201,168,76,0.3)" stroke-width="0.5"></polygon>
+        <polygon points="160,300 24,80 296,80" fill="none" stroke="rgba(201,168,76,0.3)" stroke-width="0.5"></polygon>
+        <line x1="160" y1="20" x2="160" y2="300" stroke="rgba(201,168,76,0.2)" stroke-width="0.5"></line>
+        <line x1="20" y1="160" x2="300" y2="160" stroke="rgba(201,168,76,0.2)" stroke-width="0.5"></line>
+        <line x1="55" y1="55" x2="265" y2="265" stroke="rgba(201,168,76,0.15)" stroke-width="0.5"></line>
+        <line x1="265" y1="55" x2="55" y2="265" stroke="rgba(201,168,76,0.15)" stroke-width="0.5"></line>
+      </svg>
+      <div class="nodes-container" id="nodesContainer"><div class="node node-lg" style="left: 50%; top: 50%;"><span class="node-num">4</span><span class="node-label">ライフパス</span></div><div class="node node-md" style="left: 50%; top: 15.625%;"><span class="node-num">1</span><span class="node-label">行動</span></div><div class="node node-md" style="left: 20.3125%; top: 32.8125%;"><span class="node-num">8</span><span class="node-label">ソウル</span></div><div class="node node-md" style="left: 79.6875%; top: 32.8125%;"><span class="node-num">11</span><span class="node-label">個性</span></div><div class="node node-sm" style="left: 20.3125%; top: 67.1875%;"><span class="node-num">5</span><span class="node-label">成熟</span></div><div class="node node-sm" style="left: 79.6875%; top: 67.1875%;"><span class="node-num">3</span><span class="node-label">隠れた</span></div><div class="node node-sm" style="left: 50%; top: 84.375%;"><span class="node-num">9</span><span class="node-label">目標</span></div></div>
+    </div>
+
+    <!-- LIFE PATH -->
+    <div class="detail-block fade-in visible">
+      <div class="detail-block-title">ライフパス数</div>
+      <div style="text-align:center; margin-bottom:16px;">
+        <span style="font-family:&#39;Cinzel&#39;,serif; font-size:56px; color:var(--gold-light); text-shadow:0 0 20px var(--glow);" id="lifepathBig">4</span>
+        <div style="font-size:11px; color:var(--text-dim); letter-spacing:2px; margin-top:4px;" id="lifepathKeyword">秩序と信頼の築き手</div>
+      </div>
+      <div class="detail-text" id="lifepathDesc">着実な歩みと誠実さがあなたの本質。堅固な基盤を築き、信頼される存在となります。勤勉さと現実的な思考が、長期的な成功をもたらします。</div>
+    </div>
+
+    <!-- TIMELINE -->
+    <div class="detail-block fade-in visible">
+      <div class="detail-block-title">人生の時期別数字</div>
+      <div class="timeline" id="timelineContainer"><div class="timeline-item">
+      <div class="timeline-num">4</div>
+      <div class="timeline-info">
+        <div class="timeline-age">0〜32歳</div>
+        <div class="timeline-desc">人生の基礎を築く時期。学びと成長の中で自己を発見します。</div>
+      </div>
+    </div><div class="timeline-item">
+      <div class="timeline-num">6</div>
+      <div class="timeline-info">
+        <div class="timeline-age">33〜41歳</div>
+        <div class="timeline-desc">社会との関わりが深まる時期。才能が開花し実力が試されます。</div>
+      </div>
+    </div><div class="timeline-item">
+      <div class="timeline-num">8</div>
+      <div class="timeline-info">
+        <div class="timeline-age">42〜50歳</div>
+        <div class="timeline-desc">人生の転換期。これまでの積み重ねが大きな実を結ぶ時期です。</div>
+      </div>
+    </div><div class="timeline-item">
+      <div class="timeline-num">7</div>
+      <div class="timeline-info">
+        <div class="timeline-age">51歳〜</div>
+        <div class="timeline-desc">完成と知恵の時期。後進を導き、精神的な豊かさが増します。</div>
+      </div>
+    </div></div>
+    </div>
+
+    <!-- 2026 FORTUNE -->
+    <div class="detail-block fade-in visible">
+      <div class="fortune-header">
+        <div class="fortune-year">2026</div>
+        <div class="fortune-label">年の運勢</div>
+        <div class="fortune-stars" id="fortuneStars"><svg class="star filled" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"></polygon>
+    </svg><svg class="star filled" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"></polygon>
+    </svg><svg class="star filled" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"></polygon>
+    </svg><svg class="star filled" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"></polygon>
+    </svg><svg class="star filled" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"></polygon>
+    </svg></div>
+      </div>
+      <div class="detail-text" id="fortune2026">2026年は創造性が爆発する年。芸術、表現、コミュニケーションの分野で輝かしい成果が期待できます。 今年のパーソナルイヤーナンバーは【3】です。</div>
+    </div>
+
+    <!-- ADDITIONAL INFO -->
+    <div class="detail-block fade-in visible">
+      <div class="detail-block-title">マチュリティーナンバー</div>
+      <div style="text-align:center; margin-bottom:12px;">
+        <span style="font-family:&#39;Cinzel&#39;,serif; font-size:42px; color:var(--gold); text-shadow:0 0 16px var(--glow);" id="maturityNum">5</span>
+      </div>
+      <div class="detail-text" id="maturityDesc">後半生のテーマは「自由と変革の旅人」。変化と自由を愛するあなた。冒険心と適応力で多様な経験を積み重ねます。刺激と多様性があなたの人生に喜びをもたらします。...</div>
+    </div>
+
+    <div class="divider fade-in visible"><span class="divider-icon">✦</span></div>
+
+    <div class="line-cta fade-in visible">
+      <div class="line-cta-glow"></div>
+      <div class="line-cta-content">
+        <div class="line-cta-badge">✦ 期間限定 ✦</div>
+        <div class="line-cta-title" style="font-size:20px;">【期間限定】50代から始める<br>「人生大逆転」の法則</div>
+        <div class="line-cta-desc">
+          50代は「終わりの始まり」ではなく、これまでの義務を脱ぎ捨て、本当の自分を「再定義」する絶好のタイミングです。<br>
+          あなたの運命数は、<strong>今この瞬間から変わるタイミング</strong>だと告げています。
+        </div>
+        <a href="https://line.me/ti/p/@557onnjq" target="_blank" rel="noopener noreferrer" class="line-btn">
+          <img src="./数秘術 - あなたの運命を解き明かすアプリ_files/line_add_button.jpg" alt="LINEで友だち追加">
+        </a>
+        <div class="line-cta-note">📩 完全無料・50代の方に選ばれています</div>
+      </div>
+      <div class="line-cta-qr">
+        <img src="./数秘術 - あなたの運命を解き明かすアプリ_files/line-qr.png" alt="LINE QR Code" class="qr-image">
+        <div class="qr-note">スマホの方はボタンをタップ、<br>PCの方はQRコードをスキャンしてください</div>
+      </div>
+    </div>
+
+    <!-- UPSELL TEASER -->
+    <div class="upsell-block fade-in visible">
+      <div class="upsell-label">📖 電子書籍 好評発売中</div>
+      <div class="upsell-title">「数字が教えるあなたの本質」</div>
+      <div class="upsell-sub">数秘術×自己理解×引き寄せの法則<br>潜在意識を書き換えて理想の現実を引き寄せる</div>
+      <div class="upsell-price">¥1,980<span>（PDF・全80ページ）</span></div>
+      <a href="file:///C:/Users/hikar/product/numerology_app.html#" class="upsell-btn">詳しく見る →</a>
+    </div>
+
+    <div class="divider fade-in visible"><span class="divider-icon">✦</span></div>
+    <div style="text-align:center; padding-bottom:20px; font-size:11px; color:var(--text-dim); letter-spacing:2px;" class="fade-in visible">
+      数秘術は古代から伝わる知恵の体系です
+    </div>
+
+    <!-- AI CHAT WIDGET -->
+    <div class="chat-widget active" id="yasuhiroChat">
+      <div class="chat-header">
+        <div class="chat-avatar">👤</div>
+        <div class="chat-title">ヤスヒロ軍師への相談窓</div>
+      </div>
+      <div class="chat-body">
+        <div class="chat-msg" id="chatMsg">
+          数秘から導き出した、あなたの人生後半戦の設計図についてお話ししませんか？
+        </div>
+      </div>
+      <div class="chat-footer">
+        <a href="https://line.me/ti/p/@557onnjq" target="_blank" class="chat-btn">
+          個別伴走プログラムの詳細・相談はこちら
+        </a>
+      </div>
+    </div>
+
+  </div>
+  
+
+  <script>
+    // ===== PARTICLE SYSTEM =====
+    function createParticles() {
+      const colors = ['rgba(201,168,76,0.5)', 'rgba(232,201,122,0.3)', 'rgba(255,255,255,0.2)'];
+      for (let i = 0; i < 12; i++) {
+        const p = document.createElement('div');
+        p.className = 'particle';
+        const size = Math.random() * 3 + 1;
+        const left = Math.random() * 100;
+        const delay = Math.random() * 15;
+        const dur = 12 + Math.random() * 10;
+        const drift = (Math.random() - 0.5) * 80;
+        p.style.cssText = `
+      width:${size}px; height:${size}px;
+      left:${left}%;
+      background:${colors[Math.floor(Math.random() * colors.length)]};
+      animation-duration:${dur}s;
+      animation-delay:${delay}s;
+      --drift:${drift}px;
+    `;
+        document.body.appendChild(p);
+      }
+    }
+    createParticles();
+
+    // ===== NUMEROLOGY CALCULATIONS =====
+    const LETTER_VALUES = {
+      A: 1, B: 2, C: 3, D: 4, E: 5, F: 6, G: 7, H: 8, I: 9,
+      J: 1, K: 2, L: 3, M: 4, N: 5, O: 6, P: 7, Q: 8, R: 9,
+      S: 1, T: 2, U: 3, V: 4, W: 5, X: 6, Y: 7, Z: 8
+    };
+
+    function reduceNum(n) {
+      if (n === 11 || n === 22 || n === 33) return n;
+      if (n < 10) return n;
+      return reduceNum(String(n).split('').reduce((a, d) => a + parseInt(d), 0));
+    }
+
+    function getLifePath(dateStr) {
+      const d = new Date(dateStr);
+      const y = d.getFullYear(), mo = d.getMonth() + 1, day = d.getDate();
+      const sum = [y, mo, day].map(n => String(n).split('').reduce((a, c) => a + parseInt(c), 0)).reduce((a, b) => a + b, 0);
+      return reduceNum(sum);
+    }
+
+    function getDestiny(name) {
+      const cleaned = name.toUpperCase().replace(/[^A-Z]/g, '');
+      const sum = cleaned.split('').reduce((a, c) => a + (LETTER_VALUES[c] || 0), 0);
+      return reduceNum(sum);
+    }
+
+    const VOWELS = ['A', 'E', 'I', 'O', 'U'];
+    function getSoul(name) {
+      const cleaned = name.toUpperCase().replace(/[^A-Z]/g, '');
+      const sum = cleaned.split('').filter(c => VOWELS.includes(c)).reduce((a, c) => a + (LETTER_VALUES[c] || 0), 0);
+      return reduceNum(sum || 1);
+    }
+
+    function getPersonality(name) {
+      const cleaned = name.toUpperCase().replace(/[^A-Z]/g, '');
+      const sum = cleaned.split('').filter(c => !VOWELS.includes(c) && LETTER_VALUES[c]).reduce((a, c) => a + (LETTER_VALUES[c] || 0), 0);
+      return reduceNum(sum || 1);
+    }
+
+    function getMaturity(lifepath, destiny) {
+      return reduceNum(lifepath + destiny);
+    }
+
+    function getBirthday(dateStr) {
+      const d = new Date(dateStr);
+      return reduceNum(d.getDate());
+    }
+
+    // ===== NUMBER MEANINGS =====
+    const meanings = {
+      1: { word: '先駆者', lp: '独立と創造の道を歩むあなた。自立心が強く、新しいことへの挑戦に喜びを見出します。リーダーシップと独自性があなたの最大の武器です。', fortune: '2026年はあなたの才能が開花する年。新しいプロジェクトや挑戦が実を結びます。自分を信じて前に進む勇気が、大きな成果を生み出すでしょう。', star: 4 },
+      2: { word: '調和の使者', lp: '協調と平和を大切にするあなた。繊細な感受性と深い共感力が人々の心を結びつけます。パートナーシップと協力関係があなたの人生を豊かにします。', fortune: '2026年は人間関係が深まる年。新たな出会いや既存の絆が強化され、協力によって大きな成果を上げられます。', star: 4 },
+      3: { word: '創造の表現者', lp: '創造性と自己表現に満ちたあなた。芸術的センスとコミュニケーション能力で周囲を明るく照らします。喜びと豊かさがあなたのテーマです。', fortune: '2026年は創造性が爆発する年。芸術、表現、コミュニケーションの分野で輝かしい成果が期待できます。', star: 5 },
+      4: { word: '秩序と信頼の築き手', lp: '着実な歩みと誠実さがあなたの本質。堅固な基盤を築き、信頼される存在となります。勤勉さと現実的な思考が、長期的な成功をもたらします。', fortune: '2026年は基盤固めの年。地道な努力が報われ、長年の夢が現実になる兆しがあります。焦らず着実に進みましょう。', star: 3 },
+      5: { word: '自由と変革の旅人', lp: '変化と自由を愛するあなた。冒険心と適応力で多様な経験を積み重ねます。刺激と多様性があなたの人生に喜びをもたらします。', fortune: '2026年は変化と自由の年。旅、移動、新しい経験があなたを豊かにします。思い切った挑戦が吉と出るでしょう。', star: 5 },
+      6: { word: '愛と奉仕の守護者', lp: '愛情深く責任感の強いあなた。家族や共同体への献身が人生の核心。調和と美を大切にし、人々の癒しとなります。', fortune: '2026年は愛と家庭が充実する年。人間関係の修復や新たな絆が生まれます。愛を与えることで豊かさが返ってきます。', star: 5 },
+      7: { word: '知恵の探求者', lp: '内省と分析を好むあなた。知識と精神性の探求があなたの本質。深い洞察力と直感が、真実を見抜く力を与えます。', fortune: '2026年は内省と学びの年。スピリチュアルな覚醒や専門知識の深化が起こります。孤独な時間を大切に。', star: 4 },
+      8: { word: '力と豊かさの具現者', lp: '物質的・精神的な豊かさを実現するあなた。強いリーダーシップと実行力で大きな目標を達成します。権力と責任のバランスがテーマです。', fortune: '2026年は事業と財運が上昇する年。努力が物質的な成果として現れます。ビジネスの拡大や昇進のチャンスあり。', star: 5 },
+      9: { word: '完成と慈愛の賢者', lp: '広い視野と深い慈愛を持つあなた。人類への奉仕と精神的完成があなたのテーマ。過去を手放し、新たな始まりを受け入れる智慧があります。', fortune: '2026年は完成と新生の年。何かを手放すことで、より大きな何かが訪れます。慈善活動や精神的な探求が幸運を招きます。', star: 4 },
+      11: { word: '直感と啓示のマスター', lp: '強力な直感と霊的感受性を持つマスターナンバー。インスピレーションと啓示であなた自身と周囲を照らします。精神的な使命があります。', fortune: '2026年は直感が冴え渡る年。スピリチュアルな洞察が重要な決断を助けます。内なる声に従うことで奇跡が起きます。', star: 5 },
+      22: { word: '偉大なる建築家', lp: 'マスターナンバー22。夢を現実に変える力を持つ偉大な建築家。実践的な理想主義で、大きなビジョンを着実に構築します。', fortune: '2026年は大きなプロジェクトが動き出す年。あなたのビジョンが現実世界で形になっていきます。', star: 5 },
+      33: { word: '愛と奉仕のマスター師', lp: 'マスターナンバー33。深い愛と奉仕で多くの人を導く使命を持ちます。創造的な表現と無条件の愛があなたのギフトです。', fortune: '2026年は愛と奉仕がテーマの年。人々への奉仕が深まり、精神的な充実感に満たされます。', star: 5 }
+    };
+
+    function getMeaning(n) {
+      return meanings[n] || meanings[1];
+    }
+
+    // ===== DRAW MANDALA NODES =====
+    function drawNodes(lp, destiny, soul, personality) {
+      const container = document.getElementById('nodesContainer');
+      container.innerHTML = '';
+      const cx = 160, cy = 160;
+
+      const nodes = [
+        { x: cx, y: cy, num: lp, label: 'ライフパス', size: 'lg' },
+        { x: cx, y: cy - 110, num: destiny, label: '行動', size: 'md' },
+        { x: cx - 95, y: cy - 55, num: soul, label: 'ソウル', size: 'md' },
+        { x: cx + 95, y: cy - 55, num: personality, label: '個性', size: 'md' },
+        { x: cx - 95, y: cy + 55, num: getMaturity(lp, destiny), label: '成熟', size: 'sm' },
+        { x: cx + 95, y: cy + 55, num: reduceNum(lp + soul), label: '隠れた', size: 'sm' },
+        { x: cx, y: cy + 110, num: reduceNum(destiny + soul), label: '目標', size: 'sm' },
+      ];
+
+      nodes.forEach(n => {
+        const el = document.createElement('div');
+        el.className = `node node-${n.size}`;
+        el.style.left = (n.x / 320 * 100) + '%';
+        el.style.top = (n.y / 320 * 100) + '%';
+        el.innerHTML = `<span class="node-num">${n.num}</span><span class="node-label">${n.label}</span>`;
+        container.appendChild(el);
+      });
+    }
+
+    // ===== TIMELINE =====
+    function buildTimeline(lp) {
+      const container = document.getElementById('timelineContainer');
+      container.innerHTML = '';
+      const phases = [
+        { age: '0〜32歳', num: reduceNum(lp * 1), desc: '人生の基礎を築く時期。学びと成長の中で自己を発見します。' },
+        { age: '33〜41歳', num: reduceNum(lp + 2), desc: '社会との関わりが深まる時期。才能が開花し実力が試されます。' },
+        { age: '42〜50歳', num: reduceNum(lp + 4), desc: '人生の転換期。これまでの積み重ねが大きな実を結ぶ時期です。' },
+        { age: '51歳〜', num: reduceNum(lp + 3), desc: '完成と知恵の時期。後進を導き、精神的な豊かさが増します。' },
+      ];
+      phases.forEach(p => {
+        const item = document.createElement('div');
+        item.className = 'timeline-item';
+        item.innerHTML = `
+      <div class="timeline-num">${p.num}</div>
+      <div class="timeline-info">
+        <div class="timeline-age">${p.age}</div>
+        <div class="timeline-desc">${p.desc}</div>
+      </div>
+    `;
+        container.appendChild(item);
+      });
+    }
+
+    // ===== FORTUNE STARS =====
+    function drawStars(count) {
+      const container = document.getElementById('fortuneStars');
+      container.innerHTML = '';
+      for (let i = 1; i <= 5; i++) {
+        const svg = `<svg class="star ${i <= count ? 'filled' : ''}" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/>
+    </svg>`;
+        container.innerHTML += svg;
+      }
+    }
+
+    // ===== MAIN CALCULATE =====
+    function calculate() {
+      const name = document.getElementById('nameInput').value.trim();
+      const birth = document.getElementById('birthInput').value;
+      if (!name || !birth) {
+        alert('お名前と生年月日を入力してください');
+        return;
+      }
+
+      const overlay = document.getElementById('loadingOverlay');
+      overlay.classList.add('active');
+
+      setTimeout(() => {
+        const lp = getLifePath(birth);
+        const destiny = getDestiny(name);
+        const soul = getSoul(name);
+        const personality = getPersonality(name);
+        const maturity = getMaturity(lp, destiny);
+
+        const lpM = getMeaning(lp);
+        const desM = getMeaning(destiny);
+        const solM = getMeaning(soul);
+        const perM = getMeaning(personality);
+        const matM = getMeaning(maturity);
+
+        // Personal year 2026
+        const birthDate = new Date(birth);
+        const pySum = 2026 + (birthDate.getMonth() + 1) + birthDate.getDate();
+        const personalYear = reduceNum(String(pySum).split('').reduce((a, c) => a + parseInt(c), 0));
+        const pyM = getMeaning(personalYear);
+
+        const d = new Date(birth);
+        const dateLabel = `${d.getFullYear()}年${d.getMonth() + 1}月${d.getDate()}日生まれ`;
+        const nameUpper = name.toUpperCase();
+
+        // Update UI
+        document.getElementById('resultName').textContent = nameUpper;
+        document.getElementById('resultDate').textContent = dateLabel;
+        document.getElementById('destinyNum').textContent = destiny;
+        document.getElementById('destinyMeaning').textContent = desM.word;
+        document.getElementById('soulNum').textContent = soul;
+        document.getElementById('soulMeaning').textContent = solM.word;
+        document.getElementById('personalityNum').textContent = personality;
+        document.getElementById('personalityMeaning').textContent = perM.word;
+        document.getElementById('lifepathBig').textContent = lp;
+        document.getElementById('lifepathKeyword').textContent = lpM.word;
+        document.getElementById('lifepathDesc').textContent = lpM.lp;
+        document.getElementById('maturityNum').textContent = maturity;
+        document.getElementById('maturityDesc').textContent = `後半生のテーマは「${matM.word}」。${matM.lp.substring(0, 60)}...`;
+        document.getElementById('fortune2026').textContent = pyM.fortune + ` 今年のパーソナルイヤーナンバーは【${personalYear}】です。`;
+        drawStars(pyM.star);
+        drawNodes(lp, destiny, soul, personality);
+        buildTimeline(lp);
+
+        overlay.classList.remove('active');
+        document.getElementById('resultSection').style.display = 'block';
+
+        setTimeout(() => {
+          document.getElementById('resultSection').scrollIntoView({ behavior: 'smooth' });
+          document.querySelectorAll('.fade-in').forEach((el, i) => {
+            setTimeout(() => el.classList.add('visible'), i * 100);
+          });
+
+          // Show AI Chat after results
+          setTimeout(() => {
+            document.getElementById('yasuhiroChat').classList.add('active');
+          }, 3000);
+        }, 100);
+
+      }, 1800);
+    }
+
+    // ===== SCROLL ANIMATIONS =====
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.15 });
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+    // Enter key support
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Enter') calculate();
+    });
+  </script><div class="particle" style="width: 3.54413px; height: 3.54413px; left: 39.4732%; background: rgba(255, 255, 255, 0.2); animation-duration: 18.2023s; animation-delay: 8.64415s; --drift: -27.562142777530482px;"></div><div class="particle" style="width: 1.78609px; height: 1.78609px; left: 95.1645%; background: rgba(255, 255, 255, 0.2); animation-duration: 15.6834s; animation-delay: 3.62583s; --drift: -16.246289765574843px;"></div><div class="particle" style="width: 1.93372px; height: 1.93372px; left: 23.6254%; background: rgba(201, 168, 76, 0.5); animation-duration: 13.3003s; animation-delay: 13.0009s; --drift: 9.10026886402112px;"></div><div class="particle" style="width: 3.62937px; height: 3.62937px; left: 43.4995%; background: rgba(255, 255, 255, 0.2); animation-duration: 18.2567s; animation-delay: 0.550519s; --drift: -16.164083089685228px;"></div><div class="particle" style="width: 3.19793px; height: 3.19793px; left: 49.4266%; background: rgba(255, 255, 255, 0.2); animation-duration: 17.6403s; animation-delay: 7.31931s; --drift: -25.87990854607984px;"></div><div class="particle" style="width: 3.28568px; height: 3.28568px; left: 84.8552%; background: rgba(255, 255, 255, 0.2); animation-duration: 21.3614s; animation-delay: 5.55239s; --drift: 2.744694048974381px;"></div><div class="particle" style="width: 1.40481px; height: 1.40481px; left: 93.1677%; background: rgba(232, 201, 122, 0.3); animation-duration: 19.3154s; animation-delay: 11.7928s; --drift: 3.5945305422910767px;"></div><div class="particle" style="width: 1.87127px; height: 1.87127px; left: 0.0339422%; background: rgba(232, 201, 122, 0.3); animation-duration: 19.9084s; animation-delay: 4.56798s; --drift: -0.4120541480707196px;"></div><div class="particle" style="width: 1.09575px; height: 1.09575px; left: 6.80401%; background: rgba(232, 201, 122, 0.3); animation-duration: 16.5207s; animation-delay: 12.7913s; --drift: -21.201089817532505px;"></div><div class="particle" style="width: 2.60006px; height: 2.60006px; left: 73.3889%; background: rgba(201, 168, 76, 0.5); animation-duration: 19.551s; animation-delay: 6.30171s; --drift: -26.515692084913027px;"></div><div class="particle" style="width: 1.77576px; height: 1.77576px; left: 91.1788%; background: rgba(255, 255, 255, 0.2); animation-duration: 21.9041s; animation-delay: 6.27857s; --drift: -32.830681944565896px;"></div><div class="particle" style="width: 3.89567px; height: 3.89567px; left: 98.21%; background: rgba(255, 255, 255, 0.2); animation-duration: 19.1816s; animation-delay: 6.7077s; --drift: 35.26222901301673px;"></div>
+
+
+</body></html>
